@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import "./components/navbar.css";
+import React, { useEffect } from "react";
+import { HashRouter, Route, Routes } from "react-router-dom";
+import AllData from "./public/alldata";
+import CreateAccount from "./components/createaccount";
+import Deposit from "./components/deposit";
+import Home from "./components/home";
+import Login from "./components/login";
+import NavBar from "./components/navbar";
+import Withdraw from "./components/withdraw";import './App.css';
+import UserStatus from './components/UserStatus';
 
 function App() {
+  const [user, setUser] = React.useState(null);
+
+  const handleLogin = (user) => {
+    setUser(user);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Navbar user={user} onLogout={handleLogout} />
+      {user ? (
+        <UserStatus user={user} onLogout={handleLogout} />
+      ) : (
+        <Login onLogin={handleLogin} />
+      )}
     </div>
   );
 }
-
-export default App;
